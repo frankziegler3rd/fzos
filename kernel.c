@@ -1,23 +1,12 @@
-void clear_terminal(char* VGA_BUFFER);
+
+#include "include/console.h"
 
 void main() {
 
-	char* const VGA_BUFFER = (char*) 0xb8000;
-	char* str = "Hello World";
-	
-	clear_terminal(VGA_BUFFER);
-
-	for (int i=0; str[i] != '\0'; i++) {
-		VGA_BUFFER[i*2] = str[i];
-	}
+	clear_terminal();
+	print_string("HELLO");
+	print_line("WORLD");
+	print_string("TODAY");
 
 	return;
-}
-
-void clear_terminal(char* VGA_BUFFER) {
-	
-	for(int i = 0; i < 2000; i += 2) {
-		VGA_BUFFER[i] = ' ';
-		VGA_BUFFER[i+1] = 0x07;
-	}
 }
