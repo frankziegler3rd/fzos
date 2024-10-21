@@ -20,10 +20,15 @@ void clear_terminal() {
 }
 
 void print_character(char c) {
-	
-	VGA_BUFFER[term_pos] = c;
-	VGA_BUFFER[term_pos+1] = 0x07;
-	term_pos += 2;
+
+	if (c == '\n') {
+		term_pos += (VGA_WIDTH*2-term_pos);
+	}	
+	else {
+		VGA_BUFFER[term_pos] = c;
+		VGA_BUFFER[term_pos+1] = 0x07;
+		term_pos += 2;
+	}
 }
 
 void print_string(char* str) {
