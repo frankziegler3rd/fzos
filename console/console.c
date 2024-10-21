@@ -36,7 +36,7 @@ void print_string(char* str) {
 void print_line(char* str) {
 	
 	print_string(str);
-	print_character('\0');
+	print_character('\n');
 }
 
 
