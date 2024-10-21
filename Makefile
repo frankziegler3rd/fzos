@@ -1,6 +1,6 @@
 C_FILES=./kernel.c ./console/console.c
 
-O_FILES=$[C_FILES:.c=.o]
+O_FILES=${C_FILES:.c=.o}
 
 all: qemu_launch
 
@@ -10,12 +10,12 @@ os.bin: boot.bin kernel.bin
 	cat $^ > $@
 boot.bin: boot.asm
 	nasm $< -f bin -o $@
-kernel.bin: kernel-entry.o $[O_FILES]
+kernel.bin: kernel-entry.o ${O_FILES}
 	ld -m elf_i386 -s -o $@ -Ttext 0x1000 $^ --oformat binary
 kernel-entry.o: kernel-entry.elf
 		nasm $< -f elf -o $@
-$[O_FILES]: kernel.c
-	gcc -linclude -fno-pie -m32 -ffreestanding -c $[@:.o=.c] -o $@
+${O_FILES}: kernel.c
+	gcc -linclude -fno-pie -m32 -ffreestanding -c ${@:.o=.c} -o $@
 clean:
 	$(RM) *.o *.bin
 	find . -name \*.o | xargs --no-run-if-empty rm

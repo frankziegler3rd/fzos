@@ -1,4 +1,4 @@
-#include "console.h"
+#include "../include/console.h"
 
 char* const VGA_BUFFER = (char*) 0xb8000;
 static int term_pos = 0;
