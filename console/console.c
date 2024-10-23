@@ -22,7 +22,7 @@ void clear_terminal() {
 void print_character(char c) {
 
 	if (c == '\n') {
-		term_pos += (VGA_WIDTH*2-term_pos);
+		term_pos += (VGA_WIDTH*2 - (term_pos%(VGA_WIDTH*2)));
 	}	
 	else {
 		VGA_BUFFER[term_pos] = c;
