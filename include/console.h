@@ -1,6 +1,5 @@
 #ifndef MYOS_INCLUDE_CONSOLE_H
 #define MYOS_INCLUDE_CONSOLE_H
-#endif
 
 static const int VGA_WIDTH = 80;
 static const int VGA_HEIGHT = 25;
@@ -14,3 +13,4 @@ void print_string(char* str);
 
 void print_line(char* str);
 
+#endif

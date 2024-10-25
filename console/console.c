@@ -1,33 +1,26 @@
-#include "../include/console.h"
+#include "console.h"
 
 char* const VGA_BUFFER = (char*) 0xb8000;
 static int term_pos = 0;
 
-void clear_terminal();
-
-void print_character(char c);
-
-void print_string(char* str);
-
-void print_line(char* str);
-
 void clear_terminal() {	
         
-	for(int i=0; i < VGA_WIDTH*VGA_HEIGHT; i+=2) {
+	for(int i=0; i <= term_pos; i+=VGA_BYTES_PER_CHARACTER) {
                 VGA_BUFFER[i] = ' ';
                 VGA_BUFFER[i+1] = 0x07;
         }
+	term_pos = 0;
 }
 
 void print_character(char c) {
 
 	if (c == '\n') {
-		term_pos += (VGA_WIDTH*2 - (term_pos%(VGA_WIDTH*2)));
+		term_pos += (VGA_WIDTH*VGA_BYTES_PER_CHARACTER - (term_pos%(VGA_WIDTH*VGA_BYTES_PER_CHARACTER)));
 	}	
 	else {
 		VGA_BUFFER[term_pos] = c;
 		VGA_BUFFER[term_pos+1] = 0x07;
-		term_pos += 2;
+		term_pos += VGA_BYTES_PER_CHARACTER;
 	}
 }
 
