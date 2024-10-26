@@ -4,8 +4,9 @@ char* const VGA_BUFFER = (char*) 0xb8000;
 static int term_pos = 0;
 
 void clear_terminal() {	
-        
-	for(int i=0; i <= term_pos; i+=VGA_BYTES_PER_CHARACTER) {
+       	
+	int buff_size = VGA_WIDTH*VGA_HEIGHT*VGA_BYTES_PER_CHARACTER; 
+	for(int i=0; i <= buff_size; i+=VGA_BYTES_PER_CHARACTER) {
                 VGA_BUFFER[i] = ' ';
                 VGA_BUFFER[i+1] = 0x07;
         }
@@ -36,5 +37,3 @@ void print_line(char* str) {
 	print_string(str);
 	print_character('\n');
 }
-
-
