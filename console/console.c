@@ -16,6 +16,15 @@ void set_terminal_background_color(VGA_Color col) {
 	terminal_background_color = col;
 }
 
+void update_cursor() {
+	
+	uint16_t cursor_position = term_pos >> 1;
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (cursor_position));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) (cursor_position >> 8));
+}
+
 void clear_terminal() {	
        	
 	for(int i=0; i <= buff_size; i+=VGA_BYTES_PER_CHARACTER) {
@@ -23,6 +32,7 @@ void clear_terminal() {
                 VGA_BUFFER[i+1] = 0x07;
         }
 	term_pos = 0;
+	update_cursor();
 }
 
 void print_character(char c) {
@@ -50,6 +60,7 @@ void print_character_with_color(char c, VGA_Color bg_color, VGA_Color font_color
 		VGA_BUFFER[term_pos+1] = (bg_color << 4) | font_color;
 		term_pos += VGA_BYTES_PER_CHARACTER;
 	}
+	update_cursor();
 }
 
 void print_string_with_color(char* str, VGA_Color bg_color, VGA_Color font_color) {
@@ -63,13 +74,4 @@ void print_line_with_color(char* str, VGA_Color bg_color, VGA_Color font_color) 
 
 	print_string_with_color(str, bg_color, font_color);
 	print_character_with_color('\n', bg_color, font_color);
-}
-
-void update_cursor() {
-	
-	uint16_t cursor_position = term_pos >> 1;
-	outb(0x3D4, 0X0F);
-	outb(0x3D5, (uint8_t) (cursor_position));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (uint8_t) (cursor_position >> 8));
 }
