@@ -1,4 +1,6 @@
 #include "console.h"
+#include "keyboard.h"
+#include "portmap.h"
 
 char* const VGA_BUFFER = (char*) 0xb8000;
 static int term_pos = 0;
@@ -61,4 +63,13 @@ void print_line_with_color(char* str, VGA_Color bg_color, VGA_Color font_color) 
 
 	print_string_with_color(str, bg_color, font_color);
 	print_character_with_color('\n', bg_color, font_color);
+}
+
+void update_cursor() {
+	
+	uint16_t cursor_position = term_pos >> 1;
+	outb(0x3D4, 0X0F);
+	outb(0x3D5, (uint8_t) (cursor_position));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) (cursor_position >> 8));
 }
